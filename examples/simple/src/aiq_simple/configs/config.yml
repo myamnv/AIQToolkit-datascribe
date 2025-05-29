@@ -22,12 +22,23 @@ functions:
     chunk_size: 512
   current_datetime:
     _type: current_datetime
+  data_vis_recommender_agent:
+    _type: data_vis_recommender_agent
+    llm_name: tool_reasoning_llm
+    tool_names:
+      - current_datetime
 
 llms:
   nim_llm:
     _type: nim
     model_name: meta/llama-3.1-70b-instruct
     temperature: 0.0
+  tool_reasoning_llm:
+    _type: nim
+    model_name: meta/llama-3.3-70b-instruct
+    temperature: 0.2
+    top_p: 0.7
+    max_tokens: 2048
 
 embedders:
   nv-embedqa-e5-v5:
@@ -36,7 +47,7 @@ embedders:
 
 workflow:
   _type: react_agent
-  tool_names: [webpage_query, current_datetime]
+  tool_names: [webpage_query, current_datetime, data_vis_recommender_agent]
   llm_name: nim_llm
   verbose: true
   retry_parsing_errors: true
